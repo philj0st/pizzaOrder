@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      #pizzaCart{
+        list-style-type: none;
+      }
+      ul li ul li {
+        font-size: 0.9em;
+      }
+      ul li{
+        margin-bottom: 10px;
+      }
+      option[disabled]{
+        font-size: 0.8em;
+      }
+    </style>
+    <meta charset="utf-8">
+    <title>pizza order</title>
+  </head>
+  <body>
+    <ul id="pizzaCart">
+      <li data-listindex="0"><button type="button" name="button">-</button> Pizza Margherita<ul><li>32cm - 18Chf</li></ul></li>
+      <li data-listindex="1"><button type="button" name="button">-</button> Pizza Grandoso<ul><li>40cm - 28Chf</li></ul></li>
+      <li data-listindex="2"><button type="button" name="button">-</button> Pizza Prosciutto<ul><li>21cm - 15Chf</li></ul>
+</li>
+    </ul>
+    <form>
+      <select id="pizzaChoice">
+        <option data-listindex="0">Pizza Margherita</option>
+        <option disabled>Mozarella, Oregano, Tomate</option>
+        <option data-listindex="1">Pizza Prosciutto</option>
+        <option disabled>Mozarella, Schinken, Zusätzliches</option>
+        <option data-listindex="2">Pizza Grandoso</option>
+        <option disabled>Grosse Mozarella, Grosse Tomaten, Grosses Oregano</option>
+      </select>
+      <select id="sizeChoice">
+        <option data-listindex="0">21cm - 15Chf</option>
+        <option data-listindex="1">32cm - 18Chf</option>
+        <option data-listindex="2">40cm - 28Chf</option>
+      </select>
+      <button type="button" name="addPizza">+</button>
+    </form>
+    <!--<script src="main.js"></script>-->
+  </body>
+</html>
