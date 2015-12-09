@@ -1,18 +1,27 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <style>
+      #pizzaCart{
+        list-style-type: none;
+      }
+      ul li ul li {
+        font-size: 0.9em;
+      }
+      option[disabled]{
+        font-size: 0.8em;
+      }
+    </style>
     <meta charset="utf-8">
     <title>pizza order</title>
   </head>
   <body>
-    <ul id="bestellung">
+    <ul id="pizzaCart">
     </ul>
     <form>
       <select id="pizzaChoice">
-        <option value="option">option</option>
       </select>
       <select id="sizeChoice">
-        <option value="option">21cm</option>
       </select>
       <button type="button" name="addPizza">+</button>
     </form>
