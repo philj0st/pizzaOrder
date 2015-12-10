@@ -10,10 +10,17 @@ module.exports = function(grunt){
         dest: 'dist/built.js',
       },
     },
+    open: {
+      dev: {
+        path: './index.html',
+        app: 'chromium-browser %U'
+      }
+    }
   });
-  // Load the plugin that provides the "uglify" task.
+  // Load the plugin that provides the task.
   grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-open');
 
   // Default task(s).
-  grunt.registerTask('default', ['concat']);
+  grunt.registerTask('default', ['concat', 'open']);
 }
