@@ -1,31 +1,47 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <style>
-      #pizzaCart{
-        list-style-type: none;
-      }
-      ul li ul li {
-        font-size: 0.9em;
-      }
-      option[disabled]{
-        font-size: 0.8em;
-      }
-    </style>
     <meta charset="utf-8">
-    <title>pizza order</title>
+    <title>pizzaOrder</title>
+    <script src="vue.js"></script>
   </head>
   <body>
-    <ul id="pizzaCart">
-    </ul>
-    <form>
-      <select id="pizzaChoice">
+    <form id="pizzaOrder" action="index.html" method="post">
+      <ul>
+        <!--cart items here-->
+        <li v-for="pizza in cart">
+          <span v-if="pizza.count">{{pizza.count}}</span>
+          <span>{{pizza.count}}x </span>
+          <span>{{pizza.title}}</span>
+          <span>{{pizza.price}}</span>
+          <ul>
+            <li v-for="ingredient in pizza.ingredients">{{ingredient}}</li>
+          </ul>
+          <button v-on:click="removePizzaFromCart($index)">X</button>
+        </li>
+        <!--total price-->
+        <span v-if="cartTotal">total: {{cartTotal}}</span>
+      </ul>
+      <select v-model="selectedPizza" name="pizzaSelection">
+          <option v-for="pizza in pizzas" v-bind:value="pizza">{{pizza.title}}</option>
       </select>
-      <select id="sizeChoice">
-      </select>
-      <button type="button" name="addPizza">+</button>
+      <button v-on:click="addPizzaToCart(selectedPizza)" type="button" name="addPizzaToCart">Add</button><br>
+      <label>Tel
+        <input v-on:blur="updateLocalStorage($event)" v-model="userData.tel" type="text" name="tel" placeholder="078 884 52 14"><br>
+      </label>
+      <label>Name
+        <input v-on:blur="updateLocalStorage($event)" v-model="userData.name" type="text" name="name" placeholder="Max Muster"><br>
+      </label>
+      <label>Strasse
+        <input v-on:blur="updateLocalStorage($event)" v-model="userData.street" type="text" name="street" placeholder="Musterstrasse 42"><br>
+      </label>
+      <label>PLZ
+        <input v-on:blur="updateLocalStorage($event)" v-model="userData.plz" type="number" name="plz" placeholder="8590"><br>
+      </label>
+      <label>Ort
+        <input v-on:blur="updateLocalStorage($event)" v-model="userData.place" type="text" name="place" placeholder="Romanshorn"><br>
+      </label>
     </form>
-    <script src="main.js" type="text/javascript">
-    </script>
+    <script src="main.js"></script>
   </body>
 </html>
