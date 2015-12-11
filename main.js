@@ -73,9 +73,14 @@ var vm = new Vue({
       }
     },
     removePizzaFromCart: function (index) {
-      //var indexOfPizza = this.cart.indexOf(pizza);
-      //console.log(indexOfPizza);
-      this.cart.splice(index, 1)
+      console.log(index);
+      if (this.cart[index].count) {
+        //dont remove pizza only decrement count
+        Vue.set(this.cart[index], 'count', --this.cart[index].count)
+      }else {
+        //if count is less than 1 remove the object
+        this.cart.splice(index, 1)
+      }
     },
     updateLocalStorage: function (e) {
       if (eval("this.userData."+e.target.name) === e.target.value) {
