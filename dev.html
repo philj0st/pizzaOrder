@@ -1,31 +1,21 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <style>
-      #pizzaCart{
-        list-style-type: none;
-      }
-      ul li ul li {
-        font-size: 0.9em;
-      }
-      option[disabled]{
-        font-size: 0.8em;
-      }
-    </style>
     <meta charset="utf-8">
-    <title>pizza order</title>
+    <title>pizzaOrder</title>
   </head>
   <body>
-    <ul id="pizzaCart">
-    </ul>
     <form>
-      <select id="pizzaChoice">
-      </select>
-      <select id="sizeChoice">
-      </select>
-      <button type="button" name="addPizza">+</button>
+      <div id="Selection">
+        <ul id="cart">
+          <!-- store cart items in here-->
+        </ul>
+        <select name="PizzaSelection">
+
+        </select>
+      </div>
     </form>
-    <script src="dist/built.js" type="text/javascript">
-    </script>
+    <script src="dist/built.js"></script>
+    <script src="vendor/vue.js"></script>
   </body>
 </html>

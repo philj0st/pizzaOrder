@@ -12,7 +12,7 @@ module.exports = function(grunt){
     },
     open: {
       dev: {
-        path: './index.html',
+        path: './dev.html',
         app: 'chromium-browser %U'
       }
     }
@@ -22,5 +22,5 @@ module.exports = function(grunt){
   grunt.loadNpmTasks('grunt-open');
 
   // Default task(s).
-  grunt.registerTask('default', ['concat', 'open']);
+  grunt.registerTask('default', ['concat', 'open:dev']);
 }
