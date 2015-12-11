@@ -53,19 +53,18 @@ var vm = new Vue({
   methods: {
     addPizzaToCart: function (pizza) {
       if (pizza) {
-        //cant push same object multiple times so clone it
-        //this.cart.push(clone(pizza));
-
         //check if pizza is already stored
         for (var i = 0; i < this.cart.length; i++) {
           if (this.cart[i] === pizza) {
             //inc count if already stored
             if (this.cart[i].count) {
-              this.cart[i].count++;
+              //For plain data objects, you can use the global Vue.set(object, key, value) method
+              //http://vuejs.org/guide/reactivity.html
+              Vue.set(this.cart[i], 'count', ++this.cart[i].count)
               return i;
             }else {
               //declare count if not
-              this.cart[i].count = 2;
+              Vue.set(this.cart[i], 'count', 2)
               return i;
             }
           }
