@@ -1,5 +1,4 @@
-//#TODO: bug - when app crashes when deleting pizza wiht index != cart.length
-//#TODO: add - localStorage support
+Vue.config.debug = true;
 
 var userData ={
   tel:"",
@@ -29,7 +28,7 @@ function clone(obj) {
 var vm = new Vue({
   el: '#pizzaOrder',
   data: {
-    selectedPizza:{} ,
+    selectedPizza:null ,
     pizzas: [
       { title: 'Pizza Margherita',
         ingredients: ['moz','tomato'],
@@ -74,12 +73,13 @@ var vm = new Vue({
     },
     removePizzaFromCart: function (index) {
       console.log(index);
-      if (this.cart[index].count) {
+      //if count is less then 2 remove the last pizza
+      if (this.cart[index].count>=2) {
         //dont remove pizza only decrement count
         Vue.set(this.cart[index], 'count', --this.cart[index].count)
       }else {
         //if count is less than 1 remove the object
-        this.cart.splice(index, 1)
+        this.cart.splice(index, 1);
       }
     },
     updateLocalStorage: function (e) {
