@@ -16,7 +16,7 @@
           <ul>
             <li v-for="ingredient in pizza.ingredients">{{ingredient}}</li>
           </ul>
-          <button v-on:click="removePizzaFromCart($index)">X</button>
+          <button v-on:click.prevent.stop="removePizzaFromCart($index)">X</button>
         </li>
         <!--total price-->
         <span v-if="cartTotal">total: {{cartTotal}}</span>
@@ -25,6 +25,9 @@
           <option v-for="pizza in pizzas" v-bind:value="pizza">{{pizza.title}}</option>
       </select>
       <button v-on:click="addPizzaToCart(selectedPizza)" type="button" name="addPizzaToCart">Add</button><br>
+      <ul>
+        <li v-for="ingredient in selectedPizza.ingredients">{{ingredient}}</li>
+      </ul>
       <label>Tel
         <input v-on:blur="updateLocalStorage($event)" v-model="userData.tel" type="text" name="tel" placeholder="078 884 52 14"><br>
       </label>

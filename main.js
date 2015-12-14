@@ -1,5 +1,4 @@
-//#TODO: bug - when app crashes when deleting pizza wiht index != cart.length
-//#TODO: add - localStorage support
+Vue.config.debug = true;
 
 var userData ={
   tel:"",
@@ -8,45 +7,35 @@ var userData ={
   plz:"",
   place:""
 };
-if (localStorage.userData) {
-  console.log("Welcome Back");
-  userData = JSON.parse(localStorage.userData);
-  console.log(userData);
-}
 
-//clone an object
-function clone(obj) {
-  var target = {};
-  for (var i in obj) {
-    if (obj.hasOwnProperty(i)) {
-      target[i] = obj[i];
-    }
+var pizzas =[
+  { title: 'Pizza Margherita',
+    ingredients: ['moz','tomato'],
+    price:21
+  },
+  { title: 'Pizza Prosciutto',
+    ingredients: ['moz','tomato','prosciutto','shroomz'],
+    price:24
+  },
+  { title: 'Pizza Hawai',
+    ingredients: ['Ananas','Cheese','prosciutto','Oregano'],
+    price:24
   }
-  return target;
-}
-
+];
 
 var vm = new Vue({
   el: '#pizzaOrder',
   data: {
-    selectedPizza:{} ,
-    pizzas: [
-      { title: 'Pizza Margherita',
-        ingredients: ['moz','tomato'],
-        price:21
-      },
-      { title: 'Pizza Prosciutto',
-        ingredients: ['moz','tomato','prosciutto','shroomz'],
-        price:24
-      }
-    ],
+    pizzas: pizzas,
+    selectedPizza: this.pizzas[0] ,
     cart : [],
     userData:userData
   },
   computed:{
     cartTotal: function () {
       var total = 0;
-      this.cart.forEach(pizza => total += pizza.price);
+      //cheack all pizzas if they have a count prop and return count * price if they do so. else just retrun price
+      this.cart.forEach(pizza => pizza.count ? total += pizza.count * pizza.price : total += pizza.price);
       return total;
     }
   },
@@ -73,16 +62,41 @@ var vm = new Vue({
       }
     },
     removePizzaFromCart: function (index) {
-      //var indexOfPizza = this.cart.indexOf(pizza);
-      //console.log(indexOfPizza);
-      this.cart.splice(index, 1)
+      //if count is less then 2 remove the last pizza
+      if (this.cart[index].count>=2) {
+        //dont remove pizza only decrement count
+        Vue.set(this.cart[index], 'count', --this.cart[index].count)
+      }else {
+        //if count is less than 1 remove the object
+        this.cart.splice(index, 1);
+      }
     },
     updateLocalStorage: function (e) {
-      if (eval("this.userData."+e.target.name) === e.target.value) {
-        console.log("same value");
+      //example <input name="street">
+      var propName = e.target.name;
+      if (this.userData[propName] === localStorage.getItem(propName)) {
       }else {
-        console.log("made changees");
+        localStorage.setItem(propName, this.userData[e.target.name]);
+      }
+    }
+  },
+  created:function () {
+    //load userData from localStorage
+    if (localStorageSupported()) {
+      for(var prop in this.userData){
+        this.userData[prop] = localStorage.getItem(prop);
       }
     }
   }
 })
+
+function localStorageSupported() {
+    var mod = 'modernizr';
+    try {
+        localStorage.setItem(mod, mod);
+        localStorage.removeItem(mod);
+        return true;
+    } catch(e) {
+        return false;
+    }
+};
