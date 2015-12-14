@@ -7,23 +7,6 @@ var userData ={
   plz:"",
   place:""
 };
-if (localStorage.userData) {
-  console.log("Welcome Back");
-  userData = JSON.parse(localStorage.userData);
-  console.log(userData);
-}
-
-//clone an object
-function clone(obj) {
-  var target = {};
-  for (var i in obj) {
-    if (obj.hasOwnProperty(i)) {
-      target[i] = obj[i];
-    }
-  }
-  return target;
-}
-
 
 var vm = new Vue({
   el: '#pizzaOrder',
@@ -72,7 +55,6 @@ var vm = new Vue({
       }
     },
     removePizzaFromCart: function (index) {
-      console.log(index);
       //if count is less then 2 remove the last pizza
       if (this.cart[index].count>=2) {
         //dont remove pizza only decrement count
@@ -83,11 +65,31 @@ var vm = new Vue({
       }
     },
     updateLocalStorage: function (e) {
-      if (eval("this.userData."+e.target.name) === e.target.value) {
+      var propName = e.target.name;
+      if (this.userData[propName] === localStorage.getItem(propName)) {
         console.log("same value");
       }else {
-        console.log("made changees");
+        localStorage.setItem(propName, this.userData[e.target.name]);
+      }
+    }
+  },
+  created:function () {
+    //load userData from localStorage
+    if (localStorageSupported()) {
+      for(var prop in this.userData){
+        this.userData[prop] = localStorage.getItem(prop);
       }
     }
   }
 })
+
+function localStorageSupported() {
+    var mod = 'modernizr';
+    try {
+        localStorage.setItem(mod, mod);
+        localStorage.removeItem(mod);
+        return true;
+    } catch(e) {
+        return false;
+    }
+};
