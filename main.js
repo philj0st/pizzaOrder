@@ -8,20 +8,26 @@ var userData ={
   place:""
 };
 
+var pizzas =[
+  { title: 'Pizza Margherita',
+    ingredients: ['moz','tomato'],
+    price:21
+  },
+  { title: 'Pizza Prosciutto',
+    ingredients: ['moz','tomato','prosciutto','shroomz'],
+    price:24
+  },
+  { title: 'Pizza Hawai',
+    ingredients: ['Ananas','Cheese','prosciutto','Oregano'],
+    price:24
+  }
+];
+
 var vm = new Vue({
   el: '#pizzaOrder',
   data: {
-    selectedPizza:null ,
-    pizzas: [
-      { title: 'Pizza Margherita',
-        ingredients: ['moz','tomato'],
-        price:21
-      },
-      { title: 'Pizza Prosciutto',
-        ingredients: ['moz','tomato','prosciutto','shroomz'],
-        price:24
-      }
-    ],
+    pizzas: pizzas,
+    selectedPizza: this.pizzas[0] ,
     cart : [],
     userData:userData
   },
@@ -65,9 +71,9 @@ var vm = new Vue({
       }
     },
     updateLocalStorage: function (e) {
+      //example <input name="street">
       var propName = e.target.name;
       if (this.userData[propName] === localStorage.getItem(propName)) {
-        console.log("same value");
       }else {
         localStorage.setItem(propName, this.userData[e.target.name]);
       }
