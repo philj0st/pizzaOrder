@@ -34,7 +34,8 @@ var vm = new Vue({
   computed:{
     cartTotal: function () {
       var total = 0;
-      this.cart.forEach(pizza => total += pizza.price);
+      //cheack all pizzas if they have a count prop and return count * price if they do so. else just retrun price
+      this.cart.forEach(pizza => pizza.count ? total += pizza.count * pizza.price : total += pizza.price);
       return total;
     }
   },
