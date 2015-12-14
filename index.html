@@ -16,7 +16,7 @@
           <ul>
             <li v-for="ingredient in pizza.ingredients">{{ingredient}}</li>
           </ul>
-          <button v-on:click="removePizzaFromCart($index)">X</button>
+          <button v-on:click.prevent.stop="removePizzaFromCart($index)">X</button>
         </li>
         <!--total price-->
         <span v-if="cartTotal">total: {{cartTotal}}</span>
