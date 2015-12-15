@@ -14,8 +14,8 @@
           <ul class="list-group">
             <li v-for="pizza in pizzas" class="list-group-item" v-bind:class="{ 'active': pizza.count }">
               <span class="badge">{{pizza.count}}</span>
-              <button class="pull-left btn btn-info">+</button>
-              <button class="pull-left" v-if="pizza.count" v-on:click.prevent.stop="removePizzaFromCart($index)">x</button>
+              <button v-on:click.prevent.stop="addPizzaToCart($index)" class="pull-left btn btn-info">+</button>
+              <button class="pull-left btn btn-error" v-if="pizza.count" v-on:click.prevent.stop="removePizzaFromCart($index)">-</button>
               <h4 class="list-group-item-heading">{{pizza.title}} <span class="price">{{pizza.price}}Chf</span></h4>
               <p class="list-group-item-text">{{pizza.ingredients}}</p>
             </li>
