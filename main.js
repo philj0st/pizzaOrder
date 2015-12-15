@@ -20,6 +20,10 @@ var pizzas =[
   { title: 'Pizza Hawai',
     ingredients: ['Ananas','Cheese','prosciutto','Oregano'],
     price:24
+  },
+  { title: 'Pizza Calzone',
+    ingredients: ['Artischocken','Cheese','prosciutto','Oregano'],
+    price:24
   }
 ];
 
