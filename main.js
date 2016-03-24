@@ -1,4 +1,22 @@
+
+<<<<<<< HEAD
+//todo: lieferzeit z.b 12:30, inkl. MwSt | numberRepresentation for piza price /plz finder ort automatisch / rechnig überem price wo nomal zämefasst gruppieren(snacks pizzas döner getränke usw)
+
+//total price every pizza gets counted once?
+=======
+//todo: lieferzeit z.b 12:30, inkl. MwSt /plz finder ort automatisch / rechnig überem price wo nomal zämefasst gruppieren(snacks pizzas döner getränke usw)
+
+>>>>>>> 79f1fa9... removed deliverytime, added number representation and order overview, fixed total price miscalculatio
 Vue.config.debug = true;
+
+Vue.filter('numberRepresentation', function (value) {
+  //check if it's an integer
+  if (typeof value==='number' && (value%1)===0) {
+    return value+".-";
+  }else if(typeof value==='number'){
+    return value.toFixed(2);
+  }
+});
 
 var userData ={
   tel:"",
@@ -9,13 +27,17 @@ var userData ={
 };
 
 var pizzas =[
+  { title: 'Pizza mit Lieferung',
+    ingredients: ['moz','tomato'],
+    price:21,
+  },
   { title: 'Pizza Margherita',
     ingredients: ['moz','tomato'],
     price:21
   },
   { title: 'Pizza Prosciutto',
     ingredients: ['moz','tomato','prosciutto','shroomz'],
-    price:24
+    price:24.5
   },
   { title: 'Pizza Hawai',
     ingredients: ['Ananas','Cheese','prosciutto','Oregano'],
@@ -23,6 +45,10 @@ var pizzas =[
   },
   { title: 'Pizza Calzone',
     ingredients: ['Artischocken','Cheese','prosciutto','Oregano'],
+    price:24
+  },
+  { title: 'Pizza Raffaelo',
+    ingredients: ['white chocolate','Cheese','prosciutto','Oregano'],
     price:24
   }
 ];
@@ -38,7 +64,7 @@ var vm = new Vue({
     cartTotal: function () {
       var total = 0;
       //cheack all pizzas if they have a count prop and return count * price if they do so. else just retrun price
-      this.pizzas.forEach(pizza => pizza.count ? total += pizza.count * pizza.price : total += pizza.price);
+      this.pizzas.forEach(pizza => pizza.count ? total += pizza.count * pizza.price : 0);
       return total;
     }
   },
