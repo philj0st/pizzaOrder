@@ -1,4 +1,17 @@
+
+//todo: lieferzeit z.b 12:30, inkl. MwSt | numberRepresentation for piza price /plz finder ort automatisch / rechnig überem price wo nomal zämefasst gruppieren(snacks pizzas döner getränke usw)
+//test.grillhaus-mandoline.ch info@profotos.ch:admin123
+//total price every pizza gets counted once?
 Vue.config.debug = true;
+
+Vue.filter('numberRepresentation', function (value) {
+  //check if it's an integer
+  if (typeof value==='number' && (value%1)===0) {
+    return value+".-";
+  }else if(typeof value==='number'){
+    return value.toFixed(2);
+  }
+});
 
 var userData ={
   tel:"",
@@ -9,13 +22,18 @@ var userData ={
 };
 
 var pizzas =[
+  { title: 'Pizza mit Lieferung',
+    ingredients: ['moz','tomato'],
+    price:21,
+    lieferZeit:"21min"
+  },
   { title: 'Pizza Margherita',
     ingredients: ['moz','tomato'],
     price:21
   },
   { title: 'Pizza Prosciutto',
     ingredients: ['moz','tomato','prosciutto','shroomz'],
-    price:24
+    price:24.5
   },
   { title: 'Pizza Hawai',
     ingredients: ['Ananas','Cheese','prosciutto','Oregano'],
@@ -23,6 +41,10 @@ var pizzas =[
   },
   { title: 'Pizza Calzone',
     ingredients: ['Artischocken','Cheese','prosciutto','Oregano'],
+    price:24
+  },
+  { title: 'Pizza Raffaelo',
+    ingredients: ['white chocolate','Cheese','prosciutto','Oregano'],
     price:24
   }
 ];
