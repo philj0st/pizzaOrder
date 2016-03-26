@@ -101,6 +101,12 @@ var vm = new Vue({
         this.userData[prop] = localStorage.getItem(prop);
       }
     }
+  },
+  ready:function () {
+    //register eventhandler for the postal code lookup
+    document.getElementById('postal').addEventListener('blur', function () {
+      postalLookup(this.value);
+    })
   }
 })
 
@@ -114,3 +120,29 @@ function localStorageSupported() {
         return false;
     }
 };
+
+function postalLookup(zip) {
+  var request = new XMLHttpRequest();
+  //credits to www.geonames.org
+  request.open('GET', 'http://api.geonames.org/postalCodeLookupJSON?postalcode='+ zip +'&country=CH&username=demo', true);
+
+  request.onload = function() {
+    if (request.status >= 200 && request.status < 400) {
+      // Success!
+      var data = JSON.parse(request.responseText);
+      //if search was successful
+      if (data.postalcodes.length) {
+        document.getElementById('place').value = data.postalcodes[0].adminName3
+      }
+    } else {
+      // We reached our target server, but it returned an error
+
+    }
+  };
+
+  request.onerror = function() {
+    // There was a connection error of some sort
+  };
+
+  request.send();
+}
