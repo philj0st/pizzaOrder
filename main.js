@@ -49,6 +49,21 @@ var categories = [
     ]
   },
   {
+    name : "Doener",
+    items : [
+      {
+        title: 'Falafel',
+        descr: 'humus, karotten',
+        price: 12.6
+      },
+      {
+        title: 'Crispy Chicken Special',
+        descr: 'mit Doenerfleisch und Huenerbrust',
+        price: 14.2
+      }
+    ]
+  },
+  {
     name : "Getraenke",
     items : [
       { title: 'Heineken',
