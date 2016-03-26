@@ -12,17 +12,39 @@
     <div class="center-block">
       <div class="row">
         <div class="col-sm-6">
-          <ul class="list-group">
-            <li v-for="pizza in pizzas" class="list-group-item" v-bind:class="{ 'active': pizza.count }">
-              <span v-if="pizza.count > 0" class="badge">{{pizza.count}}</span>
-              <div class="pull-left quantityControls">
-                <button v-on:click.prevent.stop="addPizzaToCart($index)" class="pull-left btn btn-info">+</button>
-                <button class="pull-left btn btn-warning" v-if="pizza.count" v-on:click.prevent.stop="removePizzaFromCart($index)">-</button>
-              </div>
-              <h4 class="list-group-item-heading">{{pizza.title}} <span class="price">{{pizza.price | numberRepresentation}} CHF</span></h4>
-              <p class="list-group-item-text">{{pizza.ingredients}}</p>
+          <ul>
+            <li v-for="category in categories">{{category.name}}
+              <ul>
+                <li v-for="item in category.items">{{item.title}}</li>
+              </ul>
             </li>
           </ul>
+          <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+            <div v-for="category in categories" class="panel panel-default">
+              <div class="panel-heading" role="tab" id="heading{{$index}}">
+                <h4 class="panel-title">
+                  <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{$index}}" aria-expanded="true" aria-controls="collapse{{$index}}">
+                    {{category.name}}
+                  </a>
+                </h4>
+              </div>
+              <div id="collapse{{$index}}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading{{$index}}">
+                <div class="panel-body">
+                  <ul class="list-group">
+                    <li v-for="item in category.items" class="list-group-item" v-bind:class="{ 'active': item.count }">
+                      <span v-if="item.count > 0" class="badge">{{item.count}}</span>
+                      <div class="pull-left quantityControls">
+                        <button v-on:click.prevent.stop="addItemToCart($index, $parent.$index)" class="pull-left btn btn-info">+</button>
+                        <button class="pull-left btn btn-warning" v-if="item.count" v-on:click.prevent.stop="removeItem($index, $parent.$index)">-</button>
+                      </div>
+                      <h4 class="list-group-item-heading">{{item.title}} <span class="price">{{item.price | numberRepresentation}} CHF</span></h4>
+                      <p class="list-group-item-text">{{item.descr}}</p>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="col-sm-6">
           <div class="form-horizontal">
@@ -74,5 +96,8 @@
     </div>
   </form>
   <script src="main.js"></script>
+  <script src="http://code.jquery.com/jquery-1.12.0.min.js"></script>
+  <!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 </body>
 </html>

@@ -26,63 +26,87 @@ var userData ={
   place:""
 };
 
-var pizzas =[
-  { title: 'Pizza mit Lieferung',
-    ingredients: ['moz','tomato'],
-    price:21,
+var categories = [
+  {
+    name : "Pizzas",
+    items : [
+      { title: 'Pizza mit Lieferung',
+        descr: ['moz','tomato'],
+        price:21,
+      },
+      { title: 'Pizza Margherita',
+        descr: ['moz','tomato'],
+        price:21
+      },
+      { title: 'Pizza Prosciutto',
+        descr: ['moz','tomato','prosciutto','shroomz'],
+        price:24.5
+      },
+      { title: 'Pizza Hawai',
+        descr: ['Ananas','Cheese','prosciutto','Oregano'],
+        price:24
+      },
+      { title: 'Pizza Calzone',
+        descr: ['Artischocken','Cheese','prosciutto','Oregano'],
+        price:24
+      },
+      { title: 'Pizza Raffaelo',
+        descr: ['white chocolate','Cheese','prosciutto','Oregano'],
+        price:24
+      }
+    ]
   },
-  { title: 'Pizza Margherita',
-    ingredients: ['moz','tomato'],
-    price:21
-  },
-  { title: 'Pizza Prosciutto',
-    ingredients: ['moz','tomato','prosciutto','shroomz'],
-    price:24.5
-  },
-  { title: 'Pizza Hawai',
-    ingredients: ['Ananas','Cheese','prosciutto','Oregano'],
-    price:24
-  },
-  { title: 'Pizza Calzone',
-    ingredients: ['Artischocken','Cheese','prosciutto','Oregano'],
-    price:24
-  },
-  { title: 'Pizza Raffaelo',
-    ingredients: ['white chocolate','Cheese','prosciutto','Oregano'],
-    price:24
+  {
+    name : "Getraenke",
+    items : [
+      { title: 'Heineken',
+        descr: '5dl',
+        price:4.5,
+      },
+      { title: 'Coca Cola',
+        descr: '1l',
+        price:3
+      }
+    ]
   }
-];
+]
 
 var vm = new Vue({
   el: '#pizzaOrder',
   data: {
-    pizzas: pizzas,
-    selectedPizza: this.pizzas[0] ,
-    userData:userData
+    categories : categories,
+    userData : userData
   },
   computed:{
     cartTotal: function () {
       var total = 0;
-      //cheack all pizzas if they have a count prop and return count * price if they do so. else just retrun price
-      this.pizzas.forEach(pizza => pizza.count ? total += pizza.count * pizza.price : 0);
+      this.categories.forEach(function (category, index, array) {
+        category.items.forEach(function (item, index) {
+          if (item.count) {
+            total += item.count * item.price
+          }
+        })
+      })
+      //cheack all pizzas if they have a count prop and return count * price if they do so. else just retrun price. removed arrow functions for IE support
+      //this.pizzas.forEach(pizza => pizza.count ? total += pizza.count * pizza.price : 0);
       return total;
     }
   },
   methods: {
-    addPizzaToCart: function (index) {
-      if(this.pizzas[index].count){
+    addItemToCart: function (index, categoryIndex) {
+      if(this.categories[categoryIndex].items[index].count){
         //For plain data objects, you can use the global Vue.set(object, key, value) method
         //http://vuejs.org/guide/reactivity.html
-        Vue.set(this.pizzas[index], 'count', ++this.pizzas[index].count);
+        Vue.set(this.categories[categoryIndex].items[index], 'count', ++this.categories[categoryIndex].items[index].count);
       }else {
         //declare count if not
-        Vue.set(this.pizzas[index], 'count', 1);
+        Vue.set(this.categories[categoryIndex].items[index], 'count', 1);
       }
     },
-    removePizzaFromCart: function (index) {
+    removeItem: function (index, categoryIndex) {
       //avoid count becoming a negativ value
-      if (this.pizzas[index].count) {
-        Vue.set(this.pizzas[index], 'count', --this.pizzas[index].count)
+      if (this.categories[categoryIndex].items[index].count) {
+        Vue.set(this.categories[categoryIndex].items[index], 'count', --this.categories[categoryIndex].items[index].count);
       }
     },
     updateLocalStorage: function (e) {
