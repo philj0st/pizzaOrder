@@ -1,7 +1,6 @@
 
-//todo: lieferzeit z.b 12:30, inkl. MwSt | numberRepresentation for piza price /plz finder ort automatisch / rechnig überem price wo nomal zämefasst gruppieren(snacks pizzas döner getränke usw)
+//todo: lieferzeit z.b 12:30, inkl. MwSt /plz finder ort automatisch / rechnig überem price wo nomal zämefasst gruppieren(snacks pizzas döner getränke usw)
 //test.grillhaus-mandoline.ch info@profotos.ch:admin123
-//total price every pizza gets counted once?
 Vue.config.debug = true;
 
 Vue.filter('numberRepresentation', function (value) {
@@ -25,7 +24,6 @@ var pizzas =[
   { title: 'Pizza mit Lieferung',
     ingredients: ['moz','tomato'],
     price:21,
-    lieferZeit:"21min"
   },
   { title: 'Pizza Margherita',
     ingredients: ['moz','tomato'],
@@ -60,7 +58,7 @@ var vm = new Vue({
     cartTotal: function () {
       var total = 0;
       //cheack all pizzas if they have a count prop and return count * price if they do so. else just retrun price
-      this.pizzas.forEach(pizza => pizza.count ? total += pizza.count * pizza.price : total += pizza.price);
+      this.pizzas.forEach(pizza => pizza.count ? total += pizza.count * pizza.price : 0);
       return total;
     }
   },

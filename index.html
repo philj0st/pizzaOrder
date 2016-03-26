@@ -19,11 +19,8 @@
                 <button v-on:click.prevent.stop="addPizzaToCart($index)" class="pull-left btn btn-info">+</button>
                 <button class="pull-left btn btn-warning" v-if="pizza.count" v-on:click.prevent.stop="removePizzaFromCart($index)">-</button>
               </div>
-              <h4 class="list-group-item-heading">{{pizza.title}} <span class="price">{{pizza.price}} CHF</span></h4>
+              <h4 class="list-group-item-heading">{{pizza.title}} <span class="price">{{pizza.price | numberRepresentation}} CHF</span></h4>
               <p class="list-group-item-text">{{pizza.ingredients}}</p>
-              <p>
-                {{pizza.lieferZeit}}
-              </p>
             </li>
           </ul>
         </div>
@@ -69,7 +66,7 @@
             </div>
             <!--BS stuff-->
             <ul>
-              <li v-for="pizza in pizzas" v-if="pizza.count > 0">{{pizza.title}}</li>
+              <li v-for="pizza in pizzas" v-if="pizza.count > 0">{{pizza.count}}x {{pizza.title}} - {{pizza.count * pizza.price | numberRepresentation}}</li>
             </ul>
           </div>
         </div>
