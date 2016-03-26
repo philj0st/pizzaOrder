@@ -71,23 +71,26 @@
                 <input id="place" class="form-control" v-on:blur="updateLocalStorage($event)" v-model="userData.place" type="text" name="place" placeholder="Romanshorn">
               </div>
             </div>
-            <div class="form-group vertical-align">
+            <div class="form-group ">
               <div class="col-xs-offset-2 col-xs-5">
                 <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Bestellen</button>
               </div>
               <div class="col-xs-5">
-                <span v-text="cartTotal | numberRepresentation" class="cartTotal">Total: {{cartTotal}}Chf</span> inkl. MwSt.
+                <!--BS stuff-->
+                <ul>
+                  <li v-for="category in categories"><strong>{{category.name}}</strong>
+                    <ul>
+                      <li v-for="item in category.items" v-if="item.count > 0">{{item.count}}x {{item.title}} - {{item.count * item.price | numberRepresentation}}</li>
+                    </ul>
+                  </li>
+                </ul>
+                <ul id="totalPriceList">
+                  <span v-text="cartTotal | numberRepresentation" class="cartTotal">Total: {{cartTotal}}Chf</span> inkl. MwSt.
+                </ul>
               </div>
             </div>
-            <!--BS stuff-->
-            <ul>
-              <li v-for="category in categories"><strong>{{category.name}}</strong>
-                <ul>
-                  <li v-for="item in category.items" v-if="item.count > 0">{{item.count}}x {{item.title}} - {{item.count * item.price | numberRepresentation}}</li>
-                </ul>
-              </li>
-            </ul>
           </div>
+
         </div>
       </div>
     </div>
