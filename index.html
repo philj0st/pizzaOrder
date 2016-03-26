@@ -1,49 +1,78 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>pizzaOrder</title>
-    <script src="vue.js"></script>
-  </head>
-  <body>
-    <form id="pizzaOrder" action="index.html" method="post">
-      <ul>
-        <!--cart items here-->
-        <li v-for="pizza in cart">
-          <span v-if="pizza.count">{{pizza.count}}x </span>
-          <span>{{pizza.title}}</span>
-          <span>{{pizza.price}}</span>
-          <ul>
-            <li v-for="ingredient in pizza.ingredients">{{ingredient}}</li>
+<head>
+  <meta charset="utf-8">
+  <title>pizzaOrder</title>
+  <script src="vue.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/master.css" charset="utf-8">
+</head>
+<body>
+  <form id="pizzaOrder" action="index.html" method="post">
+    <div class="center-block">
+      <div class="row">
+        <div class="col-sm-6">
+          <ul class="list-group">
+            <li v-for="pizza in pizzas" class="list-group-item" v-bind:class="{ 'active': pizza.count }">
+              <span v-if="pizza.count > 0" class="badge">{{pizza.count}}</span>
+              <div class="pull-left quantityControls">
+                <button v-on:click.prevent.stop="addPizzaToCart($index)" class="pull-left btn btn-info">+</button>
+                <button class="pull-left btn btn-warning" v-if="pizza.count" v-on:click.prevent.stop="removePizzaFromCart($index)">-</button>
+              </div>
+              <h4 class="list-group-item-heading">{{pizza.title}} <span class="price">{{pizza.price | numberRepresentation}} CHF</span></h4>
+              <p class="list-group-item-text">{{pizza.ingredients}}</p>
+            </li>
           </ul>
-          <button v-on:click.prevent.stop="removePizzaFromCart($index)">X</button>
-        </li>
-        <!--total price-->
-        <span v-if="cartTotal">total: {{cartTotal}}</span>
-      </ul>
-      <select v-model="selectedPizza" name="pizzaSelection">
-          <option v-for="pizza in pizzas" v-bind:value="pizza">{{pizza.title}}</option>
-      </select>
-      <button v-on:click="addPizzaToCart(selectedPizza)" type="button" name="addPizzaToCart">Add</button><br>
-      <ul>
-        <li v-for="ingredient in selectedPizza.ingredients">{{ingredient}}</li>
-      </ul>
-      <label>Tel
-        <input v-on:blur="updateLocalStorage($event)" v-model="userData.tel" type="text" name="tel" placeholder="078 884 52 14"><br>
-      </label>
-      <label>Name
-        <input v-on:blur="updateLocalStorage($event)" v-model="userData.name" type="text" name="name" placeholder="Max Muster"><br>
-      </label>
-      <label>Strasse
-        <input v-on:blur="updateLocalStorage($event)" v-model="userData.street" type="text" name="street" placeholder="Musterstrasse 42"><br>
-      </label>
-      <label>PLZ
-        <input v-on:blur="updateLocalStorage($event)" v-model="userData.plz" type="number" name="plz" placeholder="8590"><br>
-      </label>
-      <label>Ort
-        <input v-on:blur="updateLocalStorage($event)" v-model="userData.place" type="text" name="place" placeholder="Romanshorn"><br>
-      </label>
-    </form>
-    <script src="main.js"></script>
-  </body>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-horizontal">
+            <div class="form-group">
+              <label for="tel" class="col-xs-2 control-label">Tel</label>
+              <div class="col-xs-10">
+                <input class="form-control" v-on:blur="updateLocalStorage($event)" v-model="userData.tel" type="text" name="tel" placeholder="078 884 52 14">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="name" class="col-xs-2 control-label">Name</label>
+              <div class="col-xs-10">
+                <input class="form-control" v-on:blur="updateLocalStorage($event)" v-model="userData.name" type="text" name="name" placeholder="John Doe">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="name" class="col-xs-2 control-label">Strasse</label>
+              <div class="col-xs-10">
+                <input class="form-control" v-on:blur="updateLocalStorage($event)" v-model="userData.street" type="text" name="street" placeholder="Musterstrasse 42">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="name" class="col-xs-2 control-label">PLZ</label>
+              <div class="col-xs-10">
+                <input id="postal" class="form-control" v-on:blur="updateLocalStorage($event)" v-model="userData.plz" type="number" name="plz" placeholder="8590">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="name" class="col-xs-2 control-label">Ort</label>
+              <div class="col-xs-10">
+                <input id="place" class="form-control" v-on:blur="updateLocalStorage($event)" v-model="userData.place" type="text" name="place" placeholder="Romanshorn">
+              </div>
+            </div>
+            <div class="form-group vertical-align">
+              <div class="col-xs-offset-2 col-xs-5">
+                <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Bestellen</button>
+              </div>
+              <div class="col-xs-5">
+                <span v-text="cartTotal | numberRepresentation" class="cartTotal">Total: {{cartTotal}}Chf</span> inkl. MwSt.
+              </div>
+            </div>
+            <!--BS stuff-->
+            <ul>
+              <li v-for="pizza in pizzas" v-if="pizza.count > 0">{{pizza.count}}x {{pizza.title}} - {{pizza.count * pizza.price | numberRepresentation}}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <script src="main.js"></script>
+</body>
 </html>
