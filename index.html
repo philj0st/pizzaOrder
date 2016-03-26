@@ -12,13 +12,6 @@
     <div class="center-block">
       <div class="row">
         <div class="col-sm-6">
-          <ul>
-            <li v-for="category in categories">{{category.name}}
-              <ul>
-                <li v-for="item in category.items">{{item.title}}</li>
-              </ul>
-            </li>
-          </ul>
           <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
             <div v-for="category in categories" class="panel panel-default">
               <div class="panel-heading" role="tab" id="heading{{$index}}">
@@ -88,7 +81,11 @@
             </div>
             <!--BS stuff-->
             <ul>
-              <li v-for="pizza in pizzas" v-if="pizza.count > 0">{{pizza.count}}x {{pizza.title}} - {{pizza.count * pizza.price | numberRepresentation}}</li>
+              <li v-for="category in categories"><strong>{{category.name}}</strong>
+                <ul>
+                  <li v-for="item in category.items" v-if="item.count > 0">{{item.count}}x {{item.title}} - {{item.count * item.price | numberRepresentation}}</li>
+                </ul>
+              </li>
             </ul>
           </div>
         </div>
