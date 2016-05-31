@@ -76,7 +76,7 @@
                 <div class="form-inline">
                   <label for="delvery-time">gewünschte Lieferzeit</label>
                   <input class="form-control" type="time" id="delvery-time" name="delivery-time" title="gewuenschte lieferzeit">
-                  <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Bestellen</button>
+                  <button v-on:click.prevent.stop="submitOrder" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Bestellen</button>
                 </div>
               </div>
               <div class="col-xs-5">

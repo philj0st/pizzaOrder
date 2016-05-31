@@ -1,11 +1,12 @@
-//test.grillhaus-mandoline.ch info@profotos.ch:admin123
 Vue.config.debug = true;
 
 Vue.filter('numberRepresentation', function (value) {
   //check if it's an integer
   if (typeof value==='number' && (value%1)===0) {
+    // example 22.- CHF
     return value+".-";
   }else if(typeof value==='number'){
+    // don't add .- if float 22.45 CHF
     return value.toFixed(2);
   }
 });
@@ -123,6 +124,36 @@ var vm = new Vue({
       }else {
         localStorage.setItem(propName, this.userData[e.target.name]);
       }
+    },
+    submitOrder: function (e) {
+      let order = []
+      this.categories.forEach(cat => {
+        let orderCat = {
+          name: cat.name,
+          items: []
+        }
+        cat.items.forEach(item => {
+          item.count ? orderCat.items.push({title: item.title, descr: item.descr, price: item.price}) : false
+        })
+        orderCat.items.length ? order.push(orderCat) : false
+      })
+
+      var request = new XMLHttpRequest();
+      request.open('POST', 'http://phil.2wicked.net/order-manager.php', true)
+      request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8')
+
+      //specify what to do with the response
+      request.onload = function() {
+        if (request.status >= 200 && request.status < 400) {
+          // Success!
+          var data = JSON.parse(request.responseText);
+          // TODO: display success message
+        } else {
+          // We reached our target server, but it returned an error
+          // TODO: display error message
+        }
+      }
+      request.send({order: JSON.stringify(order)})
     }
   },
   created:function () {
