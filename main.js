@@ -192,10 +192,9 @@ function postalLookup(zip) {
     if (request.status >= 200 && request.status < 400) {
       // Success!
       var data = JSON.parse(request.responseText);
-      console.log(data.results[0].attrs.label)
       //if search was successful
-      if (data.results[0].attrs.label) {
-        var result = data.results[0].attrs.label
+      var result = data.results[0].attrs.label
+      if (result) {
         var stripped = result.slice(result.indexOf('-')+2, result.indexOf('</'))
         document.getElementById('place').value = stripped
       }
