@@ -186,15 +186,18 @@ function localStorageSupported() {
 function postalLookup(zip) {
   var request = new XMLHttpRequest();
   //credits to www.geonames.org
-  request.open('GET', 'http://api.geonames.org/postalCodeLookupJSON?postalcode='+ zip +'&country=CH&username=demo', true);
+  request.open('GET', 'http://api3.geo.admin.ch/rest/services/api/SearchServer?searchText='+zip+'&type=locations&returnGeometry=false&limit=1', true);
 
   request.onload = function() {
     if (request.status >= 200 && request.status < 400) {
       // Success!
       var data = JSON.parse(request.responseText);
+      console.log(data.results[0].attrs.label)
       //if search was successful
-      if (data.postalcodes.length) {
-        document.getElementById('place').value = data.postalcodes[0].adminName3
+      if (data.results[0].attrs.label) {
+        var result = data.results[0].attrs.label
+        var stripped = result.slice(result.indexOf('-')+2, result.indexOf('</'))
+        document.getElementById('place').value = stripped
       }
     } else {
       // We reached our target server, but it returned an error
